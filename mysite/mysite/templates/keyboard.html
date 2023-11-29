@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Keyboard</title>
+    <style>
+        /* Add CSS styles for the keyboard */
+        #keyboard {
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* Customize the colors of specific keys */
+        /* Add CSS styles for the keyboard */
+        .key {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 40px;
+            border: 1px solid #ccc;
+            margin: 2px;
+            cursor: pointer;
+            user-select: none; /* Prevent text selection */
+            transition: background-color 0.2s ease; /* Add smooth color transition */
+            border-radius: 10%; /* Rounded edges */
+        }
+
+        
+
+
+        .custom-key {
+            background-color: red; /* Change this to the desired color */
+            color: white; /* Text color for the custom keys */
+        }
+
+        /* Arrange keys in rows */
+        .row {
+            display: block;
+            width: 500px; /* Set a fixed width for each row */
+        }
+
+        .row .key {
+            display: inline-block;
+            width: 40px; /* Set a fixed width for each key */
+        }
+
+        /* Add styles for the output display */
+        #output {
+            margin-right:100px;
+            margin-left:100px; 
+            font-size: 45px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Add styles for the letter box */
+        .letter-box {
+            display: inline-block;
+            border: 1px solid #ccc;
+            padding: 5px;
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Add this input field to your HTML template -->
+    <input type="hidden" id="formValue" value="{{ form_value }}">
+
+    <div id="output"></div>
+    <div id="keyboard"></div>
+    
+
+    <script>
+        const keyboardLayout = [
+            ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+            ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+            ['Z', 'X', 'C', 'V', 'B', 'N', 'M', '⇦', 'Enter']
+        ];
+    
+        
+    
+        const keyColors = {
+            'Ambition': [
+                {
+                    keys: ['E', 'A'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['R', 'D', 'M'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['U', 'I', 'O', 'P', 'S', 'G', 'H','L', 'C', 'V', 'B', 'N'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'F', 'J', 'T', 'Y', 'K', 'Z'],
+                    color: '#E1E6F0'
+                },
+            ],
+            
+    
+            'Broad-mindedness': [
+                {
+                    keys: ['O', 'D'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['R', 'A', 'B'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['W', 'E', 'T', 'I', 'P', 'S', 'G','C', 'N', 'M'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'Y', 'U', 'F', 'H', 'J', 'K', 'L', 'Z', 'X', 'V'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Capability': [
+                {
+                    keys: ['P', 'D'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['E', 'T', 'A'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['R', 'Y', 'I', 'S', 'H', 'K', 'L', 'N'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'U', 'O', 'F', 'G', 'J', 'Z', 'X', 'C', 'V','B', 'M' ],
+                    color: '#E1E6F0'
+                },
+            ],
+
+            'Cheerfulness': [
+            {
+                    keys: ['H'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['Y', 'P', 'A'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['E', 'R', 'I', 'O', 'S', 'J', 'L', 'C', 'B', 'M'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'Y', 'U', 'P', 'Y','H', 'J', 'Z', 'X', 'V', 'M'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Cleaniliness': [
+            {
+                    keys: ['H','F'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['S', 'E', 'R'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['T', 'Y', 'I', 'P', 'A', 'L', 'C', 'N'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'U', 'O', 'D', 'G','K', 'J', 'Z', 'X', 'V', 'B', 'M'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Courage': [
+            {
+                    keys: ['R','A'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['V', 'E', 'B'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['T', 'Y', 'I', 'U', 'O', 'S', 'D', 'G','L'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'P', 'F', 'H', 'J','K', 'Z', 'X', 'C', 'N', 'M'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Forgiveness': [
+            {
+                    keys: ['R','A'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['V', 'O', 'F'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['E', 'T', 'Y', 'U', 'I', 'P', 'S', 'G','L', 'C', 'B','M'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'D', 'H', 'J','K', 'Z', 'X', 'N'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Helpfulness': [
+            {
+                    keys: ['S','V'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['E', 'R'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['Y', 'U', 'I', 'O', 'P', 'A', 'D', 'G','H', 'L', 'C'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'T', 'F', 'J','K', 'Z', 'X', 'B','N', 'M'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Honesty': [
+            {
+                    keys: ['H'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['T', 'R', 'U'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['E', 'Y', 'I', 'A', 'S', 'F', 'G','K', 'L', 'C', 'B', 'N'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'O', 'P', 'D','J', 'X', 'V', 'M'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Imagination': [
+            {
+                    keys: ['E','A'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['I', 'S', 'D'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['R', 'T', 'Y', 'U', 'O', 'P', 'G','C', 'L', 'M', 'N'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'F', 'H', 'K','J', 'Z', 'X', 'V', 'B'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Independence': [
+            {
+                    keys: ['R','I'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['T', 'G', 'H'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['E', 'U', 'O', 'A', 'S', 'D', 'F','N','L'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'Y', 'P', 'K','J', 'Z', 'X', 'V', 'C','B', 'M'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Intellect': [
+            {
+                    keys: ['B','I'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['R', 'A', 'N'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['E', 'T', 'O', 'S', 'D', 'F', 'L','C','M'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'Y', 'U', 'P','G', 'H', 'J', 'K', 'Z','X', 'V'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Logic': [
+            {
+                    keys: ['A','N'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['R', 'I', 'B'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['E', 'T', 'O', 'S', 'D', 'F', 'L','C','K','C','K'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'Y', 'U', 'P','G', 'H', 'J', 'K', 'Z','X', 'V'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Love': [
+            {
+                    keys: ['D','O'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['A', 'R', 'E'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['W', 'T', 'Y', 'I', 'S', 'F', 'H','L','V'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'U', 'P', 'G', 'J','K', 'Z', 'X', 'C', 'B','N', 'M'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Obidience': [
+            {
+                    keys: ['D'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['E', 'R', 'F'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['Y', 'T', 'O', 'I', 'A', 'G', 'H','L'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'P', 'U', 'S','J', 'K', 'Z', 'X', 'C','V', 'B', 'N', 'M'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Politeness': [
+            {
+                    keys: ['C'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['I', 'L', 'V'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['E', 'R', 'T', 'U', 'O', 'P', 'A','S','G', 'H', 'K','N',],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'Y', 'D', 'F','J', 'Z', 'X','B','M'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Responsibility': [
+            {
+                    keys: ['R', 'S'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['T', 'U'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: ['W', 'E', 'I', 'O', 'A', 'D', 'K','L','G', 'H', 'C'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'Y', 'P', 'F','J', 'Z', 'X','B','M','v','N'],
+                    color: '#E1E6F0'
+                },
+            ],
+            'Self-Control': [
+            {
+                    keys: ['I','R'],
+                    color: '#FFC85A'
+                },
+                {
+                    keys: ['E', 'S', 'N'],
+                    color: '#80BE6C'
+                },
+                {
+                    keys: [ 'T', 'U', 'O', 'P', 'F','B','C', 'H'],
+                    color: '#AFBCCD'
+                },
+                {
+                    keys: ['Q', 'W', 'Y', 'D', 'A','J', 'K', 'L','Z','X','V','G'],
+                    color: '#E1E6F0'
+                },
+            ],
+            // Add more form values and corresponding key-color mappings as needed
+        };
+
+
+    
+        const outputDiv = document.getElementById('output');
+        let currentKey = null;
+        let typedLetters = '';
+
+        const targetWords = {
+            'Ambition': ['DREAM', 'GOALS', 'VISION', 'SUCCESS', 'MOTIVATE'],
+            'Broad-mindedness': ['TOLERANT', 'OPENNESS', 'ACCEPT', 'EXPAND', 'DIVERSE'],
+            // Add more target words for other form values
+        };
+
+        // Function to create the keyboard layout
+        function createKeyboard() {
+            const keyboardDiv = document.getElementById('keyboard');
+            keyboardLayout.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.classList.add('row');
+                row.forEach(key => {
+                    const keyDiv = document.createElement('div');
+                    keyDiv.classList.add('key');
+                    keyDiv.textContent = key;
+
+                    // Apply key color based on the form value
+                    applyKeyColor(keyDiv, key);
+
+                    keyDiv.onclick = () => simulateKeyPress(keyDiv, key);
+                    rowDiv.appendChild(keyDiv);
+                });
+                keyboardDiv.appendChild(rowDiv);
+            });
+        }
+
+        function applyKeyColor(keyDiv, key) {
+            const formValue = document.getElementById('formValue').value;
+            const keyColorMapping = keyColors[formValue];
+            if (keyColorMapping) {
+                for (const group of keyColorMapping) {
+                    if (group.keys.includes(key)) {
+                        keyDiv.style.backgroundColor = group.color;
+                        keyDiv.style.color = 'white';
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Function to simulate key press and change color
+        function simulateKeyPress(element, key) {
+            // Reset the background color of the previous key (if any)
+            if (currentKey) {
+                currentKey.style.backgroundColor = getBackgroundColor(currentKey);
+            }
+
+            if (key === '⇦') {
+                // Handle backspace key
+                if (typedLetters.length > 0) {
+                    typedLetters = typedLetters.slice(0, -1); // Remove the last character
+                }
+            } else if (typedLetters.length < 9) { // Limit to 9 letters
+                // Insert a space if the output is not empty
+                if (typedLetters.length > 0) {
+                    typedLetters += ' ';
+                }
+                typedLetters += key;
+            }
+
+            // Update the output display
+            updateOutputDisplay();
+
+            // Check if the typed word matches the target word
+            checkWordMatch(typedLetters);
+
+            // Retain the background color for the clicked key
+            element.style.backgroundColor = getBackgroundColor(element);
+
+            currentKey = element;
+        }
+
+        // Function to get the background color of an element
+        function getBackgroundColor(element) {
+            const computedStyle = window.getComputedStyle(element);
+            return computedStyle.backgroundColor;
+        }
+
+        // Function to update the output display with boxes
+        function updateOutputDisplay() {
+            outputDiv.innerHTML = '';
+            const letterBox = document.createElement('div');
+            letterBox.classList.add('letter-box');
+            letterBox.textContent = typedLetters;
+            outputDiv.appendChild(letterBox);
+        }
+
+        // Function to check if the typed word matches the target word
+        function checkWordMatch(typedWord) {
+            const formValue = document.getElementById('formValue').value;
+            const targetWordList = targetWords[formValue];
+            if (targetWordList) {
+                if (targetWordList.includes(typedWord.toUpperCase())) {
+                    alert('Congratulations! You guessed the word correctly.');
+                }
+            }
+        }
+
+        // Call the function to create the keyboard layout
+        createKeyboard();
+    </script>
+</body>
+</html>

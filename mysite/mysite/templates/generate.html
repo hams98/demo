@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generated Image</title>
+</head>
+<body>
+    <h1>Generated Image</h1>
+    <h2>Form Value: {{ form_value }}</h2>
+    
+    {% if image_data %}
+        <h3>Wordle Image:</h3>
+        <img src="{{ wordle_image_path }}" alt="Wordle Image">
+        
+        <h3>Keyboard Image:</h3>
+        <img src="{{ keyboard_image_path }}" alt="Keyboard Image">
+    {% else %}
+        <p>No image available for the form value.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    {% load static %}
+    <link href="{% static 'base.css' %}" rel="stylesheet" type="text/css">
+    <script src="{% static 'base.js' %}" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <title>{% block title %}Blog Master{% endblock %}</title>
+    <style>
+                /* CSS to limit the maximum width of the Wordle image */
+        .wordle-image-container {
+            max-width: 100%; /* Set the maximum width as needed */
+            text-align: center; /* Center the image horizontally */
+        }
+
+        .wordle-image {
+            width: auto; /* Let the image adjust its height to maintain aspect ratio */
+            max-height: 300px; /* Set the maximum height as needed */
+            display: inline-block; /* Remove any extra spacing around the image */
+        }
+
+        /* CSS to reduce the size of the input fields */
+        input[type="text"] {
+            width: 40px; /* Adjust the width value as needed */
+            border-radius: 5px; /* Adjust the border-radius value as needed */
+            margin: 3px;
+        }
+        .modal-dialog {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .wordle-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .modal-body {
+            text-align: center;
+        }
+        .keyboard-image {
+            max-width: 100%; /* Set the maximum width of the keyboard image */
+            height: auto; /* Maintain aspect ratio while adjusting width */
+        }
+        .keyboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 5px;
+        }
+        .keyboard-button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .keyboard-button-unique {
+            width: 60px;
+            margin: 5px;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .modal-image {
+            max-width: 100%;
+            max-height: 300px;
+            display: block;
+            margin: 0 auto;
+        }
+        .form-row {
+            max-width: 100%;
+            margin: 0 auto; /* Center the form-row horizontally */
+            margin-top: 20px; /* Adjust the top margin as needed */
+        }
+        .image-container {
+            text-align: center;
+            margin-top: 20px; /* Adjust the top margin as needed */
+        }
+        .wordle-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .keyboard-container {
+            text-align: center;
+        }
+        .letter-input {
+            width: calc(100% / 5); /* Adjust the width and margin as per your preference */
+            margin: 5px;
+            font-size: 30px;
+            padding: 2px;
+        }
+        .keyboard-button {
+            padding: 1px 1px; /* Adjust the padding as per your preference */
+            font-size: 14px; /* Adjust the font-size as per your preference */
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1 id="id_site_name">My Blog</h1>
+</header>
+<div class="page-content">
+    {% block content %}{% endblock %}
+</div>
+<div class="modal fade" id="wordleModal" tabindex="-1" aria-labelledby="wordleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="wordleModalLabel">Wordle Game</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                
+                <!-- Add an id to the close button -->
+                 
+
+                
+            </div>
+            <div class="modal-body">
+                <!-- Inside the modal-body -->
+                <div class="image-container">
+                    {% if image_data %}
+                        <h3>Wordle Image:</h3>
+                        <div class="wordle-image-container">
+                            <img src="data:image/png;base64,{{ image_data }}" alt="Wordle Image" class="wordle-image">
+                        </div>
+                    {% else %}
+                        <p>No Wordle image available for the form value.</p>
+                    {% endif %}
+                </div>
+
+                
+                <!-- Input spaces -->
+                {% include 'keyboard.html' %}
+                <!-- Submit button -->
+                
+                <div class="submit-button">
+                    <button type="submit" id="submitBtn" class="btn btn-primary" disabled>Continue</button>
+                    <!-- <button type="submit" id="submitBtn" class="btn btn-primary">Continue</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            
+    </div>
+</div>
+</div>
+</div>
+<!-- Wordle Modal -->
+<!-- Add your JavaScript code for handling the keyboard button clicks and form submission here -->
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        var letterInputs = document.querySelectorAll('.letter-input');
+        var keyboardImage = document.querySelector('.keyboard-image');
+        var keyboardButtons = document.querySelectorAll('.keyboard-button');
+        
+        keyboardImage.addEventListener('click', function(event) {
+            var clickedButton = event.target.closest('.keyboard-button');
+            if (clickedButton) {
+                var letter = clickedButton.textContent;
+                var nextInput = Array.from(letterInputs).find(input => input.value === '');
+                if (nextInput) {
+                    nextInput.value = letter;
+                    printLetter(letter); // Print the letter in the console
+                }
+            }
+        });
+
+        // Optional: If you want to handle keyboard button clicks as well
+        keyboardButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                var letter = this.textContent;
+                var nextInput = Array.from(letterInputs).find(input => input.value === '');
+                if (nextInput) {
+                    nextInput.value = letter;
+                    printLetter(letter); // Print the letter in the console
+                }
+            });
+        });
+
+        // Function to print the letter in the console
+        function printLetter(letter) {
+            console.log('Typed letter:', letter);
+        }
+    });
+
+    
+</script>
+<!-- End of your JavaScript code -->
+</body>
+</html>
+
+

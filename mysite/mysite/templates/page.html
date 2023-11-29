@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="{% url 'logout' %}" id="id_nav_logout" class="nav-link">
+        Logout
+    </a>
+<!-- <a href="{% url 'page2' user.id %}">page2</a> -->
+<div class = "row">
+    <div class="row" id="id_story_card">
+        <div class="card">
+            <h5 class="card-header">Featured</h5>
+            <div class="card-body">
+                <h5 class="card-title">Story Title</h5>
+                <p class="card-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultrices enim massa, a semper metus hendrerit non. Maecenas placerat tempor magna, nec lobortis diam malesuada in. Morbi quis ullamcorper urna. Vestibulum convallis mattis sem, sit amet tempus leo aliquet quis. Curabitur non dignissim lacus. 
+                    Sed purus erat, euismod vitae viverra id, venenatis vitae nibh. Quisque lacinia a arcu id imperdiet. Nunc eget risus ut mauris auctor porta sit amet sit amet dui.
+                    <br><br>
+                    Mauris eget dui enim. Ut mollis magna est, quis lobortis libero auctor nec. Nam ut ipsum ut tortor viverra lobortis ac eu eros. Mauris hendrerit hendrerit blandit. Sed a dolor arcu. Sed scelerisque dolor id justo convallis, sit amet volutpat est feugiat. Praesent convallis, nisl sed maximus faucibus, tortor lectus pretium eros, ac pulvinar ligula odio quis nunc. Morbi sagittis quam at turpis imperdiet pellentesque. Proin suscipit egestas enim non aliquet. Vestibulum lacinia et lectus in facilisis. Sed vitae dapibus magna. In hac habitasse platea dictumst. Maecenas sit amet laoreet null
+                </p>
+                
+            </div>
+        </div>
+    </div>
+    <div class = "row" id="id_comments">
+        <h5><span id="id_comment_header">Comments</span></h5>
+        <br>
+        <div class="comments">
+            <b>User234 (35 minutes ago)</b>
+            <br>
+            Pellentesque sed ligula arcu. In porta viverra facilisis. Integer gravida ipsum a massa suscipit varius. Suspendisse rutrum lacus eu purus aliquam dignissim.
+        </div>
+        <div class="comments">
+            <b>User325 (23 minutes ago)</b>
+            <br>
+            Mauris aliquet ac orci nec tristique. In velit ante, aliquam in mauris eu, pretium ornare enim. Suspendisse convallis nibh urna.    
+        </div>
+        <div class="poststream" id="id_poststream">
+            {% for post in posts %}
+                <div id="id_post_div_{{post.id}}" class="post-div">
+                    <span id="id_username"><b>User{{user.id}}</b></span>
+                    <br>
+                    <span id="id_post_text_{{post.id}}" class="post-text">{{post.text}}</span>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row" id="id_comment_space">
+            <div id="id_postbox">
+                <form action="{% url 'page' signup_id=user.id %}" method="POST" class="card">
+                    <label id="id_post_input_label" class="card-header"><b>Add Comment:</b> </label> 
+                    <input type="text" id ="id_post_input_text" name="text" class="card-body">
+                    {% csrf_token %}
+                    <div class="card-footer">
+                        <button type="submit" id="id_post_button" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="id_addbtn" class="text-center">
+                <button type="button" class="btn btn-primary" id="id_add_comment" data-toggle="modal" data-target="#exampleModal"> Add Comment</button>
+            </div>
+        </div> 
+        <div id="cardContainer" class="container mt-3"></div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            
+            <div class="modal-body">
+                <h4>Join the Discussion</h4>
+                <p style="font-size: 0.9rem;">Answer these questions to add your comment. This helps to improve users' experiences on the platform.</p>
+
+                <!-- start of the modal input boxes -->
+                <form id="CommentForm">
+
+                <div class="col-md-6">
+                    <label for="id_Textarea1">1) Who is the most cheerful person you know?</label>
+                    <textarea class="form-control" id="id_Textarea1" rows="1" placeholder="Type Sentence Here" style="white-space: nowrap; overflow-x: auto; margin-left: 1rem; margin-bottom: 1rem;" required></textarea>
+                    
+                    <label for="id_Textarea2">2) What is your favorite color?</label>
+                    <textarea class="form-control" id="id_Textarea2" rows="1" placeholder="Type Sentence Here" style="white-space: nowrap; overflow-x: auto; margin-left: 1rem; margin-bottom: 1rem;" required></textarea>
+                
+                    <label for="id_Textarea3">3) Where is your happy place?</label>
+                    <textarea class="form-control" id="id_Textarea3" rows="1" placeholder="Type Sentence Here" style="white-space: nowrap; overflow-x: auto; margin-left: 1rem; margin-bottom: 1rem;" required></textarea>
+                
+                    <label for="id_Textarea4">4) What dessert fo you find delightful?</label>
+                    <textarea class="form-control" id="id_Textarea4" rows="1" placeholder="Type Sentence Here" style="white-space: nowrap; overflow-x: auto; margin-left: 1rem; margin-bottom: 1rem;" required></textarea>
+                
+                    <label for="id_Textarea5">5) Where did you first ride a bike?</label>
+                    <textarea class="form-control" id="id_Textarea5" rows="1" placeholder="Type Sentence Here" style="white-space: nowrap; overflow-x: auto; margin-left: 1rem; margin-bottom: 1rem;" required></textarea>
+                </div>
+                
+                </form>
+                <div id="id_invalid_fields">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="openCommentBox()" form="CommentForm">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <script>
+    
+    window.onload = loadComments
+    window.setInterval(loadComments,5000)
+</script> -->
+
+
+
+{% endblock %}

@@ -1,0 +1,55 @@
+#id_site_name {
+    margin-top: 1%;
+}
+
+.page-content {
+    width: 98%;
+}
+
+.card {
+    padding: 0px;
+}
+
+#id_story_card {
+    margin: 1%;
+}
+
+#id_comments {
+    margin: 1%;
+}
+
+#id_add_comment {
+   margin: 2%;
+}
+
+#comment_div {
+    margin-left: 25%;
+    width: 50%;
+    padding: 1%;
+}
+
+#id_comment_header {
+    display: inline-block;
+    margin-bottom: 2px;
+    font-size: 18px;
+
+}
+
+.comments {
+    margin-bottom: 5px;
+}
+
+#post-input-box {
+    margin-left: 25%;
+    width: 50%;
+    padding: 1%;
+}
+
+/*#id_post_input_text, #id_post_button, #id_post_input_label {
+    display: inline-block;
+    margin: 1%;
+}*/
+
+#id_post_button {
+    text-align: center;
+}

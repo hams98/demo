@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Value demo2</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+      <style>
+         .custom-list-group {
+         column-count: 3;
+         column-gap: 1.25rem; /* Adjust the gap between columns as needed */
+         list-style: none;
+         padding-left: 0;
+         }
+         .custom-list-group-item {
+         display: inline-block;
+         width: 100%;
+         padding: 0.5rem;
+         }
+         .list-group {
+         margin: 25px; /* Adjust the value as needed */
+         }
+         .active-item {
+         background-color: blue !important;
+         color: white !important;
+         }
+         body {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         min-height: 100vh;
+         }
+         .input-margin {
+         margin: 10px;
+         }
+      </style>
+   </head>
+   <body>
+      <!-- Add this hidden input field to associate the SignupModel instance -->
+      <input type="hidden" name="signup" value="{{ signup_instance.id }}">
+      <p>{{ signup_instance.id }}</p>
+
+      <form id="myForm" method="post" action="" novalidate>
+   
+
+
+         {% csrf_token %}
+         <div class="card" style="width: 57.753rem;">
+            <div class="card-header input-margin">
+               Account Information
+            </div>
+            <div class="card-body"></div>
+            <h5 class="card-title input-margin">Tell Us About Yourself</h5>
+            <p class="card-text input-margin">Our platform strives to foster inspired conversations driven by what our users value and believe in.</p>
+            
+               {% if form.interests.errors %}
+               <div class="invalid-feedback">
+                  {{ form.interests.errors|join:", " }}
+               </div>
+               {% endif %}
+               <label class="card-text input-margin" for="interests">What are your interests?</label>
+               <input type="text"  class="form-control {% if form.interests.errors %}is-invalid{% endif %}" id="interests" name="interests">
+               {% if form.form_value.errors %}
+               <div id="formValueError" class="invalid-feedback"></div>
+               {{ form.form_value.errors|join:", " }}
+               {% endif %}
+               <label class="card-text input-margin" for="form_value">Which of these values stands out to you as most important in your life? For example, as having particular relevance to a current goal or recent experience.</label>
+               <div class="list-group input-margin" id="list">
+                  <div class="row">
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value1" data-value="A news outlet’s website">A news outlet’s website</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value2" data-value="A news outlet’s mobile app">A news outlet’s mobile app</li>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value3" data-value="A news aggregator (e.g., Apple or Google News)">A news aggregator (e.g., Apple or Google News)</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value4" data-value=">A late-night talk show (e.g., The Daily Show)">A late-night talk show (e.g., The Daily Show)</li>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value5" data-value="Social media">Social media</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value6" data-value="Cable news">Cable news</li>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value7" data-value="Radio or podcasts">Radio or podcasts</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value8" data-value="Other">Other</li>
+                     </div>
+                  </div>
+               </div>
+               <input type="hidden" name="form_value" id="selectedValueInput">
+               {% if form.format_importance.errors %}
+               <div class="invalid-feedback">
+                  {{ form.format_importance.errors|join:", " }}
+               </div>
+               {% endif %}
+               <label class="card-text input-margin" for="format_importance">Describe what you like about this format for accessing news.</label>
+               <textarea  rows="3" id="format_importance" cols="100" class="form-control input-margin {% if form.format_importance.errors %}is-invalid{% endif %}" name="format_importance">{{ form.format_importance.value }}</textarea>
+               {% if form.catchphrase.errors %}
+               <div class="invalid-feedback">
+                  {{ form.catchphrase.errors|join:", " }}
+               </div>
+               {% endif %}
+               <label class="card-text input-margin" for="catchphrase">What is your catchphrase?</label>
+               <input  type="text" name="catchphrase" id="catchphrase" class="form-control input-margin {% if form.catchphrase.errors %}is-invalid{% endif %}" value="{{ form.catchphrase.value }}">
+               <div class="d-flex justify-content-center">
+                  <button type="submit" class="btn btn-primary" {% if form.errors %}disabled{% endif %}>Save</button>
+               </div>
+            </div>
+         
+      </form>
+      <script>
+         document.addEventListener("DOMContentLoaded", function() {
+            const listItems = document.querySelectorAll('.list-group-item-action');
+            const selectedValueInput = document.getElementById('selectedValueInput');
+            const form = document.getElementById('myForm');
+            const formErrorsDiv = document.getElementById('formValueError');
+            const signupInstanceId = "{{signup_instance.id|safe  }}";
+            const saveNoValueUrl = `/savenovalue/${signupInstanceId}/`;
+            console.log("signupInstanceId:", signupInstanceId);
+            console.log("saveNovalueUrl:", saveNoValueUrl );
+            console.log("selectedValueInput:", selectedValueInput);
+
+            form.setAttribute('action', saveNoValueUrl );
+            listItems.forEach(item => {
+            item.addEventListener('click', function() {
+               listItems.forEach(item => {
+                  item.classList.remove('active-item');
+               });
+               this.classList.add('active-item');
+               const selectedValue = this.getAttribute('data-value');
+               selectedValueInput.value = selectedValue;
+               
+               // Clear the form_value error message when a new value is selected
+               formErrorsDiv.textContent = "";
+            });
+            });
+            
+            form.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent default form submission
+            console.log("Form submission prevented to check for validation.");
+               
+            /* if (!selectedValueInput.value) {
+               console.log("Form value is required.");
+               formErrorsDiv.textContent = "Please select a value from the list.";
+               return;
+            } else {
+               formErrorsDiv.textContent = ""; // Clear any previous error message
+            } */
+            const response = await fetch(saveNoValueUrl , {
+               method: 'POST',
+               body: new FormData(form),
+               });
+
+            console.log('Response:', response);
+            if (response.ok) {
+               console.log("Form submitted successfully");
+               // window.location.href = '/page2/'; // Replace with your actual URL
+               
+               // Print form values for debugging
+               const formData = new FormData(form);
+               formData.forEach((value, key) => {
+                  console.log(`${key}: ${value}`);
+               });
+               // Clear error messages and styles
+               const errorContainers = document.querySelectorAll('.invalid-feedback');
+               errorContainers.forEach(container => {
+                  container.remove();
+               });
+               const invalidFields = document.querySelectorAll('.is-invalid');
+               invalidFields.forEach(field => {
+                  field.classList.remove('is-invalid');
+               });
+               
+               // You can redirect or show a success message here
+            } else {
+               const responseData = await response.json(); // Parse response JSON
+               console.log("Response Data:", responseData); // Print the response data
+            
+               // Check for validation errors in the response data
+               if (responseData.errors) {
+                  // Clear existing error messages and styles
+                  const errorContainers = document.querySelectorAll('.invalid-feedback');
+                  errorContainers.forEach(container => {
+                  container.remove();
+                  });
+                  const invalidFields = document.querySelectorAll('.is-invalid');
+                  invalidFields.forEach(field => {
+                  field.classList.remove('is-invalid');
+                  });
+            
+                  // Display all error messages for each field
+                  for (const field in responseData.errors) {
+                  const fieldErrors = responseData.errors[field];
+                  console.log(`Validation errors for ${field}: ${fieldErrors.join('. ')}`);
+            
+                  const fieldElement = document.querySelector(`[name="${field}"]`);
+                  fieldElement.classList.add('is-invalid');
+            
+                  const errorContainer = document.createElement('div');
+                  errorContainer.className = 'invalid-feedback';
+                  errorContainer.textContent = fieldErrors.join('. ');
+                  fieldElement.parentNode.insertBefore(errorContainer, fieldElement.nextSibling);
+                     
+               
+                  }
+                  
+               
+               }
+            }
+            });
+         });
+            
+           
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+   </body>
+</html>

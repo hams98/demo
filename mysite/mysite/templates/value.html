@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Value demo</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+      <style>
+         .custom-list-group .custom-list-group-item {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100%;
+         padding: 0.5rem;
+         }
+         .custom-list-group {
+         width: 100%;
+         }
+         .custom-list-group-item {
+         display: block;
+         width: 100%;
+         padding: 0.5rem;
+         }
+         .active-item {
+         background-color: blue !important;
+         color: white !important;
+         }
+         body {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         min-height: 100vh;
+         }
+         .input-margin {
+         margin-bottom: 10px;
+         }
+         .custom-container {
+         margin: 0;
+         }
+         .list-group {
+         margin: 25px; /* Adjust the value as needed */
+         }
+         .custom-container {
+         margin-bottom: 0;
+         padding-right: 0rem;
+         padding-left: 0rem;
+         }
+      </style>
+   </head>
+   <body>
+      <!-- Add this hidden input field to associate the SignupModel instance -->
+      <input type="hidden" name="signup" value="{{ signup_instance.id }}">
+      <p>{{ signup_instance.id }}</p>
+
+      <form id="myForm" method="post" action="" novalidate> 
+    
+         {% csrf_token %}
+         <div class="card" style="width: 57.753rem;">
+         <div class="card-header input-margin">
+            Account Information
+         </div>
+         <div class="card-body">
+            <h5 class="card-title input-margin">Tell Us About Yourself</h5>
+            <p class="card-text input-margin">Our platform strives to foster inspired conversations driven by what our users value and believe in.</p>
+            {% if form.interests.errors %}
+            <div class="invalid-feedback">
+               {{ form.interests.errors|join:", " }}
+            </div>
+            {% endif %}
+            <label class="card-text input-margin" for="interests">What are your interests?</label>
+            <input type="text"  class="form-control {% if form.interests.errors %}is-invalid{% endif %}" id="interests" name="interests">
+            {% if form.form_value.errors %}
+            <div id="formValueError" class="invalid-feedback">
+            {{ form.form_value.errors|join:", " }}
+            {% endif %}
+            <label class="card-text input-margin" for="form_value">Which of these values stands out to you as most important in your life? For example, as having particular relevance to a current goal or recent experience.</label>
+            <div class="list-group input-margin" id="list">
+               <div class="list-group" id="list">
+                  <div class="row">
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value1" data-value="Cheerfulness">Cheerfulness</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value2" data-value="Capability">Capability</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value4" data-value="Independence">Independence</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action"  name="form_value5" data-value="Helpfulness">Helpfulness</li>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action"  name="form_value6" data-value="Ambition">Ambition</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value7"  data-value="Courage">Courage</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value8" data-value="Intellect">Intellect</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value9" data-value="Responsibility">Responsibility</li>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action"  name="form_value10" data-value="Love">Love</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value11" data-value="Politeness">Politeness</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value12" data-value="Broad-Mindedness">Broad-Mindedness</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value13" data-value="Forgiveness">Forgiveness</li>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col d-flex custom-container" >
+                        <li class="list-group-item list-group-item-action" name="form_value14" data-value="Independence">Cleanliness</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value15" data-value="Honesty">Honesty</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value16" data-value="Logic">Logic</li>
+                     </div>
+                     <div class="col d-flex custom-container"></div>
+                     <!-- Empty column -->
+                  </div>
+                  <div class="row">
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action" name="form_value17" data-value="Self-Control">Self-Control</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action"  name="form_value18" data-value="Imagination">Imagination</li>
+                     </div>
+                     <div class="col d-flex custom-container">
+                        <li class="list-group-item list-group-item-action"  name="form_value19" data-value="Obidience">Obidience</li>
+                     </div>
+                     <div class="col d-flex custom-container"  ></div>
+                     <!-- Empty column -->
+                  </div>
+               </div>
+               <input type="hidden" name="form_value" id="selectedValueInput">
+               {% if form.value_importance.errors %}
+               <div class="invalid-feedback">
+                  {{ form.value_importance.errors|join:", " }}
+               </div>
+               {% endif %}
+               <label class="card-text input-margin" for="value_importance">Why is this value important to you?</label>
+               <textarea rows="3" cols="100" class="form-control input-margin" name="value_importance" ></textarea>
+               {% if form.catchphrase.errors %}
+               <div class="invalid-feedback">
+                  {{ form.catchphrase.errors|join:", " }}
+               </div>
+               {% endif %}
+               <label class="card-text input-margin" for="catchphrase">What is your catchphrase?</label>
+               <input type="text" name="catchphrase" class="form-control input-margin">
+               <div class="d-flex justify-content-center">
+                  <button type="submit" class="btn btn-primary" {% if form.errors %}disabled{% endif %}>Save</button>
+               </div>
+            </div>
+         </div> 
+         </div>
+      </div>
+      </form>
+      <script>
+         document.addEventListener("DOMContentLoaded", function() {
+            const listItems = document.querySelectorAll('.list-group-item-action');
+            const selectedValueInput = document.getElementById('selectedValueInput');
+            const form = document.getElementById('myForm');
+            const formErrorsDiv = document.getElementById('formValueError');
+            const signupInstanceId = "{{ signup_instance.id|safe  }}";
+            const saveValueUrl = `/savevalue/${signupInstanceId}/`;
+            
+            console.log("signupInstanceId:", signupInstanceId);
+            console.log("saveNovalueUrl:", saveValueUrl);
+            
+            form.setAttribute('action', saveValueUrl);
+            
+            listItems.forEach(item => {
+               item.addEventListener('click', function() {
+                  listItems.forEach(item => {
+                        item.classList.remove('active-item');
+                  });
+                  this.classList.add('active-item');
+                  const selectedValue = this.getAttribute('data-value');
+                  selectedValueInput.value = selectedValue;
+            
+                  // Clear the form_value error message when a new value is selected
+                  formErrorsDiv.textContent = "";
+                  console.log(`Selected value: ${selectedValue}`);
+               });
+            });
+            
+            form.addEventListener('submit', async function(event) {
+               event.preventDefault(); // Prevent default form submission
+               console.log("Form submission prevented to check for validation.");
+            
+               const formData = new FormData(form);
+               formData.forEach((value, key) => {
+                  console.log(`Form Data - ${key}: ${value}`);
+               });
+            
+               const response = await fetch(saveValueUrl, {
+                  method: 'POST',
+                  body: formData,
+               });
+
+               console.log('Response:', response);
+               if (response.ok) {
+                  console.log("Form submitted successfully");
+                  // window.location.href = '/page1/'; // Replace with your actual URL
+                 
+                  
+               } else {
+                  const responseData = await response.json();
+                  console.log("Response Data:", responseData);
+                     // Check for validation errors in the response data
+                     if (responseData.errors) {
+                     // Clear existing error messages and styles
+                     const errorContainers = document.querySelectorAll('.invalid-feedback');
+                     errorContainers.forEach(container => {
+                        container.remove();
+                     });
+                     const invalidFields = document.querySelectorAll('.is-invalid');
+                     invalidFields.forEach(field => {
+                        field.classList.remove('is-invalid');
+                     });
+               
+                     // Display all error messages for each field
+                     for (const field in responseData.errors) {
+                        const fieldErrors = responseData.errors[field];
+                        console.log(`Validation errors for ${field}: ${fieldErrors.join('. ')}`);
+               
+                        const fieldElement = document.querySelector(`[name="${field}"]`);
+                        fieldElement.classList.add('is-invalid');
+               
+                        const errorContainer = document.createElement('div');
+                        errorContainer.className = 'invalid-feedback';
+                        errorContainer.textContent = fieldErrors.join('. ');
+                        fieldElement.parentNode.insertBefore(errorContainer, fieldElement.nextSibling);
+                        
+                     
+                     }
+                     
+                     
+                     }
+                  }
+               });
+              });
+              
+                
+           
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+   </body>
+</html>

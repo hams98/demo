@@ -1,0 +1,70 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<div class="h-50 d-inline-block">
+    <div class="border border-secondary rounded" id="story_header">
+        <span>Featured</span>
+    </div>
+
+    <div class="border border-secondary rounded" id="story">
+        <span><b>Story title</b></span>
+        <br>
+        <span>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultrices enim massa, a semper metus hendrerit non. Maecenas placerat tempor magna, nec lobortis diam malesuada in. Morbi quis ullamcorper urna. Vestibulum convallis mattis sem, sit amet tempus leo aliquet quis. Curabitur non dignissim lacus. 
+                Sed purus erat, euismod vitae viverra id, venenatis vitae nibh. Quisque lacinia a arcu id imperdiet. Nunc eget risus ut mauris auctor porta sit amet sit amet dui.
+                <br><br>
+                Mauris eget dui enim. Ut mollis magna est, quis lobortis libero auctor nec. Nam ut ipsum ut tortor viverra lobortis ac eu eros. Mauris hendrerit hendrerit blandit. Sed a dolor arcu. Sed scelerisque dolor id justo convallis, sit amet volutpat est feugiat. Praesent convallis, nisl sed maximus faucibus, tortor lectus pretium eros, ac pulvinar ligula odio quis nunc. Morbi sagittis quam at turpis imperdiet pellentesque. Proin suscipit egestas enim non aliquet. Vestibulum lacinia et lectus in facilisis. Sed vitae dapibus magna. In hac habitasse platea dictumst. Maecenas sit amet laoreet nulla.
+        </span>
+    </div>
+</div>
+<div class="h-25 d-inline-block" id="comment_div">
+    <b><span id="comment_header">Comments</span></b>
+    <br>
+    <div class="comments">
+        <b>User234 (35 minutes ago)</b>
+        <br>
+        Pellentesque sed ligula arcu. In porta viverra facilisis. Integer gravida ipsum a massa suscipit varius. Suspendisse rutrum lacus eu purus aliquam dignissim.
+    </div>
+    <div class="comments">
+        <b>User325 (23 minutes ago)</b>
+        <br>
+        Mauris aliquet ac orci nec tristique. In velit ante, aliquam in mauris eu, pretium ornare enim. Suspendisse convallis nibh urna.    
+    </div>
+</div>
+
+    <!--<form  method="POST" id="post-input-box" class="border border-gray-300 rounded">
+        <label id="id_post_input_label">Add Comment: </label> 
+        <input type="text" class="form-control" id ="id_post_input_text" name="text" placeholder="Join the discussion!">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary" id="id_post_button">Submit</button>
+    </form>-->
+<div>
+    {% csrf_token %}
+    <button type="submit" id="id_post_button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Comment</button>
+</div>
+
+<button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">Open Modal</button>  
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+{% endblock %}
